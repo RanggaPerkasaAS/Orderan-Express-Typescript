@@ -9,8 +9,8 @@ class ProductRoutes extends BaseRoutes {
         this.router.get("/getAll", auth, ProductController.getAll);
         this.router.get("/getWithAxios", auth, ProductController.getWithAxios);
         this.router.get("/getByName", auth, ProductController.getByName);
-        this.router.get("/update/:id", auth, ProductController.update);
-        this.router.get("/delete", auth, ProductController.delete);
+        this.router.put("/update/:id", auth, ProductController.update);
+        this.router.delete("/delete", auth, ProductController.delete);
     }
 }
 

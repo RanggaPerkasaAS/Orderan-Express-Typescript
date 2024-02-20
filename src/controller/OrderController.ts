@@ -17,11 +17,11 @@ class OrderController {
                 status: "200",
                 message: "Successfully add product!",
             });
-        } catch (error) {
+        } catch (error:any) {
             return res.status(500).json({
                 status: "500",
                 message: "Internal Server Error",
-                error: error
+                error: error.message
             })
         }
     }
@@ -35,11 +35,11 @@ class OrderController {
                 message: "Successfully get all order history!",
                 data: data
             });
-        } catch (error) {
+        } catch (error:any) {            
             return res.status(500).json({
                 status: "500",
                 message: "Internal Server Error",
-                error: error
+                error: error.message
             })
         }
     }

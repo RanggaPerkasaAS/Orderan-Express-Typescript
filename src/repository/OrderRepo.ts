@@ -6,7 +6,7 @@ import { Users } from '../models/Users';
 
 interface IOrderRepo {
     order(order: { product_id: number, qty: number }): Promise<void>;
-    orderHistory(): Promise<Order[]>;
+    orderHistory(): Promise<any>;
 }
 
 export class OrderRepo implements IOrderRepo {
@@ -46,22 +46,16 @@ export class OrderRepo implements IOrderRepo {
         }
     }
 
-    async orderHistory(): Promise<Order[]> {
+    async orderHistory(): Promise<any> {
         try {
-            const orders = await Order.findAll({
-                include: [
-                    {
-                        model: Product,
-                        required: true,
-                    },
-                    {
-                        model: Users,
-                        required: true,
-                    }
-                ]
-            });
-            
-            return orders || [];
+            const orders = await Order.sequelize?.query(`
+            SELECT o.*, p.name AS product_name, p.price AS product_price, u.name AS user_name 
+            FROM \`order\` o 
+            INNER JOIN product p ON o.product_id = p.id 
+            INNER JOIN users u ON o.user_id = u.id 
+            ORDER BY o.order_at DESC`);
+
+            return orders;
         } catch (error) {
             throw new Error("Failed to get all order history" + error);
         }
